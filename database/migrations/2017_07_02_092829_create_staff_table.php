@@ -19,6 +19,8 @@ class CreateStaffTable extends Migration
             $table->integer('position_id');
             $table->float('salary', 8, 2);
             $table->timestamps();
+
+            $table->foreign('position_id')->references('position_id')->on('position');
         });
     }
 
