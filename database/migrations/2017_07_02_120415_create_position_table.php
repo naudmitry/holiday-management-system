@@ -20,6 +20,8 @@ class CreatePositionTable extends Migration
             $table->integer('min_days');
             $table->integer('max_days');
             $table->timestamps();
+
+            $table->foreign('division_id')->references('division_id')->on('division');
         });
     }
 
