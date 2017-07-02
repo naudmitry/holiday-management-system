@@ -26,6 +26,9 @@ class CreateStatementTable extends Migration
             $table->boolean('approved');
             $table->integer('leader_id');
             $table->timestamps();
+
+            $table->foreign('staff_id')->references('staff_id')->on('staff');
+            $table->foreign('leader_id')->references('leader_id')->on('leader');
         });
     }
 
