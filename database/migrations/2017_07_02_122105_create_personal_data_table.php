@@ -15,13 +15,15 @@ class CreatePersonalDataTable extends Migration
     {
         Schema::create('personal_data', function (Blueprint $table) {
             $table->increments('personal_data_id');
-            $table->integer('staff_id');
+            $table->integer('staff_id')->unsigned();
             $table->date('birthday');
             $table->string('male');
             $table->string('email');
             $table->string('phone');
             $table->string('address');
             $table->timestamps();
+
+            $table->foreign('staff_id')->references('staff_id')->on('staff');
         });
     }
 
