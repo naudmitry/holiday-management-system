@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDivisionTable extends Migration
+class CreatePositionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateDivisionTable extends Migration
      */
     public function up()
     {
-        Schema::create('division', function (Blueprint $table) {
-            $table->increments('division_id');
+        Schema::create('position', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
+            $table->string('name_r');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateDivisionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('division');
+        Schema::dropIfExists('position');
     }
 }

@@ -18,8 +18,16 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('full_name');
+            $table->string('full_name_r');
+            $table->integer('position_id')->unsigned();
+            $table->string('address');
+            $table->string('role');
+            $table->boolean('block');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('position_id')->references('id')->on(position);
         });
     }
 

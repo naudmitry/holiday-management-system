@@ -14,21 +14,17 @@ class CreateStatementTable extends Migration
     public function up()
     {
         Schema::create('statement', function (Blueprint $table) {
-            $table->increments('statement_id');
-            $table->date('date_submission');
-            $table->integer('number');
-            $table->integer('count_days');
+            $table->increments('id');
+            $table->boolean('pending_approval');
+            $table->boolean('denied');
+            $table->boolean('reaffirmed');
             $table->date('date_start');
             $table->date('date_end');
-            $table->boolean('own_expense');
-            $table->string('reason');
-            $table->integer('staff_id');
-            $table->boolean('approved');
-            $table->integer('leader_id');
+            $table->integer('user_id')->unsigned();
+            $table->string('comment');
             $table->timestamps();
 
-            $table->foreign('staff_id')->references('staff_id')->on('staff');
-            $table->foreign('leader_id')->references('leader_id')->on('leader');
+            $table->foreign('user_id')->references('id')->on(users);
         });
     }
 
