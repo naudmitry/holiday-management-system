@@ -15,19 +15,23 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('name');
+            $table->string('name_r');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('full_name');
-            $table->string('full_name_r');
-            $table->integer('position_id')->unsigned();
+            $table->integer('position_id')->unsigned()->index();
             $table->string('address');
-            $table->string('role');
-            $table->boolean('block');
+            
+            $table->enum('role', [
+                \App\Enums\RolesEnum::EMPLOYEE,
+                \App\Enums\RolesEnum::HEAD
+            ])->default(\App\Enums\RolesEnum::EMPLOYEE);
+
+            $table->boolean('is_blocked')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('position_id')->references('id')->on(position);
         });
     }
 
