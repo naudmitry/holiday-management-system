@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-abstract class StatusEnum
+abstract class StatusEnum extends BasicEnum
 {
     const AWAITING = 'awaiting';
     const REJECTED = 'rejected';

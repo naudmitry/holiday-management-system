@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Models;
+use App\Enums;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -14,15 +18,17 @@
 $faker = Faker\Factory::create('ru_RU');
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Position::class, function ($faker) {
+$factory->define(Models\Position::class, function ($faker) {
     return [
         'name' => $faker->name,
-        'name' => $faker->name
+        'name_r' => $faker->name
     ];
 });
 
-$factory->define(App\Models\User::class, function ($faker) {
+$factory->define(Models\User::class, function ($faker) {
     static $password;
+    $listPositionId = Models\Position::pluck('id');
+    $roleUser = Enums\RolesEnum::getAll();
 
     return [
         'name' => $faker->name,
@@ -31,28 +37,27 @@ $factory->define(App\Models\User::class, function ($faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'address' => $faker->address,
-        'position_id' => function() {
-            return factory(App\Models\Position::class)->create()->id;
-        }
+        'position_id' => $listPositionId->random(),
+        'role' => $faker->randomElement($roleUser)
     ];
 });
 
-$factory->define(App\Models\Holiday::class, function ($faker) {
+$factory->define(Models\Holiday::class, function ($faker) {
+    $listUserId = Models\User::pluck('id');
+    $status = Enums\StatusEnum::getAll();    
+
+    $daysMax = \App\Models\Setting::where('key', 'MAX_HOLIDAY_DAYS')->value('value');
+    $daysMin = \App\Models\Setting::where('key', 'MIN_HOLIDAY_DAYS')->value('value');
+
+    $days = $faker->numberBetween($daysMin, $daysMax);
+
     return [
         'name' => $faker->name,
-        'user_id' => function() {
-            return factory(App\Models\User::class)->create()->id;
-        }
-        'date_start' => $date_start => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'date_end' => $faker->dateTimeBetween($date_start, $date_start.'+10 days')->format('Y-m-d'),
-        'duration' => 10,
-        'comment' => $faker->text
-    ];
-});
-
-$factory->define(App\Models\Setting::class, function ($faker) {
-    return [
-        'name' => str_random(10),
-        'value' => str_random(10)
+        'user_id' => $listUserId->random(),
+        'date_start' => $date_start = $faker->date('now'),
+        'date_end' => $faker->dateTimeBetween($date_start, $date_start.' +'. $days .' days'),
+        'duration' => $days,
+        'comment' => $faker->text,
+        'status' => $faker->randomElement($status)
     ];
 });

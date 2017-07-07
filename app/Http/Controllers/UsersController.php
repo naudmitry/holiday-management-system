@@ -13,7 +13,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = App\Models\User::get();
+        $users = \App\Models\User::get();
         
         return view('users.index', ['users' => $users]);
     }
