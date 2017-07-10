@@ -14,9 +14,11 @@ class SettingsTableSeeder extends Seeder
         $settings = [
             ['key' => 'ORGANIZATION_NAME', 'name' => 'Название организации', 'value' => 'ОАО Стрит'],
             ['key' =>'DIRECTOR', 'name' => 'Директор', 'value' => 'Иванов Иван Иванович'],
-            ['key' => 'MAX_HILIDAY_DAYS', 'name' => 'Максимальная длительность отпуска', 'value' => '30'],
+            ['key' => 'MAX_HOLIDAY_DAYS', 'name' => 'Максимальная длительность отпуска', 'value' => '30'],
             ['key' => 'MIN_HOLIDAY_DAYS', 'name' => 'Минимальная длительность отпуска', 'value' => '5']
         ];
+
+        \App\Models\Setting::truncate();
 
         \App\Models\Setting::insert($settings); 
     }

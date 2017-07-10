@@ -27,8 +27,12 @@ $factory->define(Models\Position::class, function ($faker) {
 
 $factory->define(Models\User::class, function ($faker) {
     static $password;
-    $listPositionId = Models\Position::pluck('id');
-    $roleUser = Enums\RolesEnum::getAll();
+    $positionIds = Models\Position::pluck('id');
+    $userRole = Enums\RolesEnum::EMPLOYEE;
+
+    $userHead = $faker->boolean(5);
+    if ($userHead)
+        $userRole = Enums\RolesEnum::HEAD;
 
     return [
         'name' => $faker->name,
@@ -37,27 +41,30 @@ $factory->define(Models\User::class, function ($faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'address' => $faker->address,
-        'position_id' => $listPositionId->random(),
-        'role' => $faker->randomElement($roleUser)
+        'position_id' => $positionIds->random(),
+        'role' => $userRole
     ];
 });
 
 $factory->define(Models\Holiday::class, function ($faker) {
-    $listUserId = Models\User::pluck('id');
+    $userIds = Models\User::pluck('id');
     $status = Enums\StatusEnum::getAll();    
 
-    $daysMax = \App\Models\Setting::where('key', 'MAX_HOLIDAY_DAYS')->value('value');
-    $daysMin = \App\Models\Setting::where('key', 'MIN_HOLIDAY_DAYS')->value('value');
-
+    $daysMax = Models\Setting::where('key', 'MAX_HOLIDAY_DAYS')->value('value');
+    $daysMin = 5;
     $days = $faker->numberBetween($daysMin, $daysMax);
 
+    $comment = $faker->text;
+    $commentNull = $faker->boolean(50);
+    if ($commentNull)
+        $comment = null;
+
     return [
-        'name' => $faker->name,
-        'user_id' => $listUserId->random(),
-        'date_start' => $date_start = $faker->date('now'),
-        'date_end' => $faker->dateTimeBetween($date_start, $date_start.' +'. $days .' days'),
+        'user_id' => $userIds->random(),
+        'date_start' => $date_start = $faker->dateTimeBetween('-2 years', '+1 years'),
+        'date_end' => $date_start->add(new DateInterval('P'.$days.'D')),
         'duration' => $days,
-        'comment' => $faker->text,
+        'comment' => $comment,
         'status' => $faker->randomElement($status)
     ];
 });

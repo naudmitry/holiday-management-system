@@ -11,6 +11,8 @@ class PositionsTableSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\Position::truncate();
+        
         factory(App\Models\Position::class, 50)->create();
     }
 }
