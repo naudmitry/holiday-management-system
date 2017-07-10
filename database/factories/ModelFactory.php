@@ -3,6 +3,7 @@
 
 use App\Models;
 use App\Enums;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +19,14 @@ use App\Enums;
 $faker = Faker\Factory::create('ru_RU');
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Models\Position::class, function ($faker) {
+$factory->define(Models\Position::class, function () use ($faker) {
     return [
         'name' => $faker->name,
         'name_r' => $faker->name
     ];
 });
 
-$factory->define(Models\User::class, function ($faker) {
+$factory->define(Models\User::class, function () use ($faker) {
     static $password;
     $positionIds = Models\Position::pluck('id');
     $userRole = Enums\RolesEnum::EMPLOYEE;
@@ -46,7 +47,7 @@ $factory->define(Models\User::class, function ($faker) {
     ];
 });
 
-$factory->define(Models\Holiday::class, function ($faker) {
+$factory->define(Models\Holiday::class, function () use ($faker) {
     $userIds = Models\User::pluck('id');
     $status = Enums\StatusEnum::getAll();    
 
@@ -56,13 +57,16 @@ $factory->define(Models\Holiday::class, function ($faker) {
 
     $comment = $faker->text;
     $commentNull = $faker->boolean(50);
-    if ($commentNull)
+    if ($commentNull) {
         $comment = null;
+    }
+    
+    $date_start = Carbon::instance($faker->dateTimeBetween('-2 years', '+1 years'));
 
     return [
         'user_id' => $userIds->random(),
-        'date_start' => $date_start = $faker->dateTimeBetween('-2 years', '+1 years'),
-        'date_end' => $date_start->add(new DateInterval('P'.$days.'D')),
+        'date_start' => clone $date_start,
+        'date_end' => $date_start->addDays($days),
         'duration' => $days,
         'comment' => $comment,
         'status' => $faker->randomElement($status)
