@@ -12,7 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::resource('staff', 'StaffController');
+Route::get('login', function()
+{
+    return view('user/login');
+});
+
+Route::get('personal', function()
+{
+    return view('user/personal');
+});
+
+//Route::resource('staff', 'StaffController');

@@ -33,7 +33,9 @@ $factory->define(Models\User::class, function () use ($faker) {
 
     $userHead = $faker->boolean(5);
     if ($userHead)
+    {
         $userRole = Enums\RolesEnum::HEAD;
+    }
 
     return [
         'name' => $faker->name,
@@ -43,7 +45,8 @@ $factory->define(Models\User::class, function () use ($faker) {
         'remember_token' => str_random(10),
         'address' => $faker->address,
         'position_id' => $positionIds->random(),
-        'role' => $userRole
+        'role' => $userRole,
+        'is_blocked' => $faker->boolean(20)
     ];
 });
 
@@ -55,10 +58,12 @@ $factory->define(Models\Holiday::class, function () use ($faker) {
     $daysMin = 5;
     $days = $faker->numberBetween($daysMin, $daysMax);
 
-    $comment = $faker->text;
     $commentNull = $faker->boolean(50);
     if ($commentNull) {
         $comment = null;
+    }
+    else {
+        $comment = $faker->text;
     }
     
     $date_start = Carbon::instance($faker->dateTimeBetween('-2 years', '+1 years'));
