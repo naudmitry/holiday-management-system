@@ -15,14 +15,14 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('login', function()
-{
-    return view('user/login');
+Route::get('login', function() {
+    return view('auth/login');
 });
 
-Route::get('personal', function()
-{
-    return view('user/personal');
+Route::get('personal', function() {
+    return view('users/personal');
 });
 
-//Route::resource('staff', 'StaffController');
+Route::resource('user', 'UsersController');
+
+Route::get('auth', 'UsersController@auth');

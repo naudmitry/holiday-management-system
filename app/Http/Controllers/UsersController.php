@@ -83,4 +83,23 @@ class UsersController extends Controller
     {
         //
     }
+
+    public function auth()
+    {
+        $method = $request->method();
+
+        if ($request->isMethod('post')) {
+            $email = Input::get('email');
+            $password = Input::get('password');
+
+            $user = \App\Models\User::checkUserData($email, $password);
+
+            if ($user) {
+                header('Location: /personal/');
+            }
+            else {
+                header('Location: /personal/');
+            }
+        }
+    }
 }

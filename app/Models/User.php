@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function checkUserData($email, $password) {
+        $user = Models\User::where('email', $email);
+        
+        if (Hash::check($password, $user->password)) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -41,7 +41,7 @@ $factory->define(Models\User::class, function () use ($faker) {
         'name' => $faker->name,
         'name_r' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = Hash::make('secret'),
         'remember_token' => str_random(10),
         'address' => $faker->address,
         'position_id' => $positionIds->random(),
