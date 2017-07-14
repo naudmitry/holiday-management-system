@@ -13,16 +13,17 @@
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index.view');
 
 Route::get('login', function() {
     return view('auth/login');
-});
+})->name('login.view');
 
 Route::get('personal', function() {
     return view('users/personal');
-});
+})->name('personal.view');
 
 Route::resource('user', 'UsersController');
 
-Route::get('auth', 'UsersController@auth');
+Route::post('login', 'UsersController@auth')->name('login.action');
+Route::get('logout', 'UsersController@logout')->name('logout.action');

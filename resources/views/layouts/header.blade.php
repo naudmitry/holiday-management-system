@@ -4,7 +4,8 @@
     <title>HMS</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
-    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/bootstrap.js"></script>
   </head>
   <body>  
     <div class="container">
@@ -18,7 +19,11 @@
             <li><a href="#">Contact</a></li>
           </ul>-->
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="login">Войти</a></li>
+            @if (Auth::check())
+              <li><a href="{{ route('logout.action') }}">Выйти</a></li>  
+            @else
+              <li><a href="login">Войти</a></li>
+            @endif
           </ul>
         </div>
       </nav>

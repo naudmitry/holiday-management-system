@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
@@ -14,7 +16,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = \App\Models\User::get();
-        
+    
         return view('users.index', ['users' => $users]);
     }
 
@@ -86,20 +88,23 @@ class UsersController extends Controller
 
     public function auth()
     {
-        $method = $request->method();
+        $email = Input::get('email');
+        $password = Input::get('password');
 
-        if ($request->isMethod('post')) {
-            $email = Input::get('email');
-            $password = Input::get('password');
+        $data = ['email' => $email, 'password' => $password, 'is_blocked' => 0];
 
-            $user = \App\Models\User::checkUserData($email, $password);
-
-            if ($user) {
-                header('Location: /personal/');
-            }
-            else {
-                header('Location: /personal/');
-            }
+        if (Auth::attempt($data)) {
+            return redirect()->route('personal.view');
         }
+        
+        $errors[] = 'Введенные данные неверные. Попробуйте войти ещё раз.';
+        return view('auth.login', ['errors' => $errors]);
+    }
+
+    public function logout() 
+    {
+        Auth::logout();
+
+        return redirect()->route('index.view');
     }
 }

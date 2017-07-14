@@ -2,6 +2,7 @@ var gulp = require('gulp');
 
 var paths = {
     bootstrap: './bower_components/bootstrap',
+    jquery: './bower_components/jquery',
     public: './public'
 }
 
@@ -20,4 +21,9 @@ gulp.task('js', function() {
         .pipe(gulp.dest(paths.public + '/js'));
 });
 
-gulp.task('default', ['css', 'fonts', 'js']);
+gulp.task('jquery', function() {
+    return gulp.src(paths.jquery + '/dist/*.js')
+        .pipe(gulp.dest(paths.public + '/js'));
+});
+
+gulp.task('default', ['css', 'fonts', 'js', 'jquery']);

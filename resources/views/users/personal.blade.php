@@ -1,4 +1,5 @@
 @include('layouts.header')
+
 <form action="" method="post">
     <h4>Персональные данные пользователя.</h4>
     <hr>
