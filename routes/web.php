@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('index');
-})->name('index.view');
+})->name('home.view');
 
 Route::get('login', function() {
     return view('auth/login');
@@ -23,7 +23,15 @@ Route::get('personal', function() {
     return view('users/personal');
 })->name('personal.view');
 
-Route::resource('user', 'UsersController');
+Route::resource('users', 'UsersController', ['middleware' => 'role:employee']);
 
-Route::post('login', 'UsersController@auth')->name('login.action');
-Route::get('logout', 'UsersController@logout')->name('logout.action');
+Route::get('users/{user}/delete', 'UsersController@delete', function(\App\Models\User $user) {
+    return view('users/delete');
+})->name('users.delete')->middleware('role:employee');
+
+Route::post('login', 'AuthorizationController@login')->name('login.action');
+Route::get('logout', 'AuthorizationController@logout')->name('logout.action');
+
+Route::get('dashboard', function() {
+    return view('dashboard/head');
+})->name('dashboard.view');

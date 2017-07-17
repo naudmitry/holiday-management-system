@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
@@ -15,7 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = \App\Models\User::get();
+        $users = \App\Models\User::paginate(10);
     
         return view('users.index', ['users' => $users]);
     }
@@ -49,7 +49,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = \App\Models\User::find($id);
+
+        return view('users.show', ['user' => $user]);
     }
 
     /**
@@ -60,7 +62,22 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = \App\Models\User::find($id);
+
+        return view('users.edit', ['user' => $user]);
+    }
+
+    /**
+     * Show the form for deleting the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $user = \App\Models\User::find($id);
+
+        return view('users.delete', ['user' => $user]);
     }
 
     /**
@@ -83,28 +100,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $user = \App\Models\User::find($id)->delete();
 
-    public function auth()
-    {
-        $email = Input::get('email');
-        $password = Input::get('password');
-
-        $data = ['email' => $email, 'password' => $password, 'is_blocked' => 0];
-
-        if (Auth::attempt($data)) {
-            return redirect()->route('personal.view');
-        }
-        
-        $errors[] = 'Введенные данные неверные. Попробуйте войти ещё раз.';
-        return view('auth.login', ['errors' => $errors]);
-    }
-
-    public function logout() 
-    {
-        Auth::logout();
-
-        return redirect()->route('index.view');
+        return view('users.index');
     }
 }

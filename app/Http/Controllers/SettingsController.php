@@ -13,7 +13,9 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //
+        $settings = \App\Models\Setting::get();
+    
+        return view('settings.index', ['settings' => $settings]);
     }
 
     /**
