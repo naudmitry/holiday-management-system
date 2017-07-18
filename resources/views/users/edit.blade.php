@@ -57,7 +57,7 @@
     </form>
 
     <div>
-        <a href="{{ URL::to('users') }}">Вернуться</a>
+        <a href="{{ route('users.index') }}">Вернуться</a>
     </div>
 </div>
 

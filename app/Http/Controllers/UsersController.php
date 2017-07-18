@@ -20,6 +20,11 @@ class UsersController extends Controller
         return view('users.index', ['users' => $users]);
     }
 
+    public function add()
+    {
+        return view('users.create');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -27,7 +32,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -49,7 +54,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = \App\Models\User::find($id);
+        $user = \App\Models\User::findOrFail($id);
 
         return view('users.show', ['user' => $user]);
     }
@@ -62,7 +67,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = \App\Models\User::find($id);
+        $user = \App\Models\User::findOrFail($id);
 
         return view('users.edit', ['user' => $user]);
     }
@@ -75,7 +80,7 @@ class UsersController extends Controller
      */
     public function delete($id)
     {
-        $user = \App\Models\User::find($id);
+        $user = \App\Models\User::findOrFail($id);
 
         return view('users.delete', ['user' => $user]);
     }
@@ -100,8 +105,13 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = \App\Models\User::find($id)->delete();
+        $user = \App\Models\User::findOrFail($id)->delete();
 
         return view('users.index');
+    }
+
+    public function personal()
+    {
+        return view('users.personal');
     }
 }

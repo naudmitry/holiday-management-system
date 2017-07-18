@@ -32,8 +32,8 @@
 </div>
 
 <p>
-    <a href="{{ URL::to('users/'.$user->id.'/edit') }}">Изменить</a> |
-    <a href="{{ URL::to('users') }}">Вернуться</a>
+    <a href="{{ route('users.edit', $user->id) }}">Изменить</a> |
+    <a href="{{ route('users.index') }}">Вернуться</a>
 </p>
 
 @include('layouts.footer')

@@ -33,7 +33,7 @@
     <form>
         <div class="form-actions no-color" method="delete">
             <input type="submit" value="Удалить" class="btn btn-default" /> |
-            <a href="{{ URL::to('users') }}">Вернуться</a>
+            <a href="{{ route('users.index') }}">Вернуться</a>
         </div>
     </form>
 </div>
