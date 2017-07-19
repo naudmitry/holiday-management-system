@@ -17,17 +17,13 @@
         <dd>{{ $user->name_r }}</dd>
 
         <dt>Должность</dt>
-        <dd>{{ $user->position_id }}</dd>
+        <dd>{{ $user->position->name }}</dd>
 
         <dt>Адрес</dt>
         <dd>{{ $user->address }}</dd>
 
         <dt>Заблокирован</dt>
-        @if ($user->is_blocked)
-            <dd>Да</dd>
-        @else
-            <dd>Нет</dd>
-        @endif
+        <dd>{{$user->is_blocked ? 'Да' : 'Нет'}}</dd>
     </dl>
 </div>
 

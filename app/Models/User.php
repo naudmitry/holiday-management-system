@@ -30,4 +30,17 @@ class User extends Authenticatable
     public function hasRole($role) {
         return $this->role == $role;
     }
+
+    public function position() {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function holidays()
+    {
+        return $this->hasMany(Holiday::class);
+    }
+
+    public static function positions() {
+        return Position::all();
+    }
 }

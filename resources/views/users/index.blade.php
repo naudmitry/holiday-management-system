@@ -15,19 +15,16 @@
         <th>ФИО</th>
         <th>Email</th>
         <th>Блокировка</th>
+        <th>Должность</th>
         <th></th>
     </tr>
     
     @foreach($users as $key => $value)
         <tr>
             <td>{{ $value->name }}</td>
-            <td>{{ $value->email }}</td>
-            
-            @if ($value->is_blocked)
-                <td>Да</td>
-            @else
-                <td>Нет</td>
-            @endif
+            <td>{{ $value->email }}</td>            
+            <td>{{$value->is_blocked ? 'Да' : 'Нет'}}</td>
+            <td>{{ $value->position->name }}</td>
             
             <td>
                 <a href="{{ route('users.edit', $value->id) }}">Изменить</a> | 

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Holidays;
 use Illuminate\Http\Request;
 
-class HolidaysController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,9 @@ class HolidaysController extends Controller
      */
     public function index()
     {
-        //
+        $settings = \App\Models\Setting::get();
+    
+        return view('settings.index', ['settings' => $settings]);
     }
 
     /**
@@ -41,10 +42,10 @@ class HolidaysController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Holidays  $holidays
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Holidays $holidays)
+    public function show($id)
     {
         //
     }
@@ -52,10 +53,10 @@ class HolidaysController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Holidays  $holidays
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Holidays $holidays)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +65,10 @@ class HolidaysController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Holidays  $holidays
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Holidays $holidays)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +76,10 @@ class HolidaysController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Holidays  $holidays
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Holidays $holidays)
+    public function destroy($id)
     {
         //
     }

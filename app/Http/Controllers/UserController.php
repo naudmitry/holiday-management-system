@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,17 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = \App\Models\User::paginate(10);
+        $users = \App\Models\User::with(['position', 'holidays'])
+            ->paginate(10);
     
         return view('users.index', ['users' => $users]);
     }
 
+    /**
+     * Show the form for add a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function add()
     {
         return view('users.create');
@@ -55,7 +61,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = \App\Models\User::findOrFail($id);
-
+        
         return view('users.show', ['user' => $user]);
     }
 
@@ -94,7 +100,15 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        \App\Models\User::findOrFail($id)
+            ->update([
+                'name' => Input::get('name'),
+                'name_r' => Input::get('name_r'),
+                'email' => Input::get('email'),
+                'position_id' => Input::get('position_id'),
+                'address' => Input::get('address'),
+                'is_blocked' => Input::get('is_blocked')
+                ]);
     }
 
     /**
