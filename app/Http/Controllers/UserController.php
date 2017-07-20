@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
 
 class UserController extends Controller
 {
@@ -38,7 +40,18 @@ class UserController extends Controller
      */
     public function create()
     {
-        
+        $user = new \App\Models\User;
+        $user->name = Input::get('name');
+        $user->name_r = Input::get('name_r');
+        $user->email = Input::get('email');
+        $user->position_id = Input::get('position_id');
+        $user->role = Input::get('role');
+        $user->address = Input::get('address');
+        $user->is_blocked = Input::has('is_blocked');
+        $user->password = Input::get('password');
+        $user->save();
+
+        return redirect()->route('users.show', $user);
     }
 
     /**
@@ -74,8 +87,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = \App\Models\User::findOrFail($id);
+        $errors = \Session::get('errors');
 
-        return view('users.edit', ['user' => $user]);
+        return view('users.edit', ['user' => $user, 'errors' => $errors]);
     }
 
     /**
@@ -98,17 +112,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\UpdateUser $request, $id)
     {
-        \App\Models\User::findOrFail($id)
-            ->update([
-                'name' => Input::get('name'),
-                'name_r' => Input::get('name_r'),
-                'email' => Input::get('email'),
-                'position_id' => Input::get('position_id'),
-                'address' => Input::get('address'),
-                'is_blocked' => Input::get('is_blocked')
-                ]);
+        $user = \App\Models\User::findOrFail($id);
+        $user->name = $request->get('name');
+        $user->name_r = $request->get('name_r');
+        $user->email = $request->get('email');
+        $user->position_id = $request->get('position_id');
+        $user->address = $request->get('address');
+        $user->role = $request->get('role');
+        $user->is_blocked = $request->has('is_blocked');
+        $user->save();
+
+        return redirect()->route('users.show', $user);
     }
 
     /**

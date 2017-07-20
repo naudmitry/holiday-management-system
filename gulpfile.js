@@ -11,6 +11,11 @@ gulp.task('css', function() {
         .pipe(gulp.dest(paths.public + '/css'));
 });
 
+gulp.task('map', function() {
+    return gulp.src(paths.bootstrap + '/dist/css/*.map')
+        .pipe(gulp.dest(paths.public + '/css'));
+})
+
 gulp.task('fonts', function() {
     return gulp.src(paths.bootstrap + '/dist/fonts/*')
         .pipe(gulp.dest(paths.public + '/fonts'));
@@ -26,4 +31,4 @@ gulp.task('jquery', function() {
         .pipe(gulp.dest(paths.public + '/js'));
 });
 
-gulp.task('default', ['css', 'fonts', 'js', 'jquery']);
+gulp.task('default', ['css', 'fonts', 'js', 'jquery', 'map']);

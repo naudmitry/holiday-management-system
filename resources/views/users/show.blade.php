@@ -23,7 +23,11 @@
         <dd>{{ $user->address }}</dd>
 
         <dt>Заблокирован</dt>
-        <dd>{{$user->is_blocked ? 'Да' : 'Нет'}}</dd>
+        <dd>{{ $user->is_blocked ? 'Да' : 'Нет' }}</dd>
+
+        <dt>Роль</dt>
+        <dd>{{ $user->role }}</dd>
+
     </dl>
 </div>
 

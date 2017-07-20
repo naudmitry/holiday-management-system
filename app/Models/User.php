@@ -39,8 +39,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Holiday::class);
     }
-
-    public static function positions() {
-        return Position::all();
-    }
 }
