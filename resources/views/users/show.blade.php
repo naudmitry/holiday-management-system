@@ -27,7 +27,6 @@
 
         <dt>Роль</dt>
         <dd>{{ $user->role }}</dd>
-
     </dl>
 </div>
 

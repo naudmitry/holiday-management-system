@@ -17,9 +17,26 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\Models\User::with(['position', 'holidays'])
-            ->paginate(10);
-    
+        $usersQuery = \App\Models\User::query()->with(['position', 'holidays']);
+
+        if (request()->has('name')) {
+            $usersQuery->where('name', 'LIKE', '%' . request('name') . '%')->paginate(10);
+        }
+        
+        if (request()->has('email')) {
+            $usersQuery->where('email', request('email'));
+        }
+
+        if (request()->has('is_blocked')) {
+            $usersQuery->where('is_blocked', request('is_blocked'));
+        }
+
+        if (request()->has('position_id')) {
+            $usersQuery->where('position_id', request('position_id'));
+        }
+
+        $users = $usersQuery->paginate(10);
+        
         return view('users.index', ['users' => $users]);
     }
 
@@ -137,7 +154,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::findOrFail($id)->delete();
 
-        return view('users.index');
+        return redirect()->route('users.index');
     }
 
     public function personal()

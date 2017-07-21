@@ -24,9 +24,13 @@
 
         <dt>Заблокирован</dt>
         <dd>{{$user->is_blocked ? 'Да' : 'Нет'}}</dd>
+
+        <dt>Роль</dt>
+        <dd>{{ trans('user.roles.' . $user->role) }}</dd>
     </dl>
 
-    <form>
+    <form method="POST" action="{{ route('users.destroy', $user) }}">
+        {{ method_field('DELETE') }}
         <div class="form-actions no-color" method="delete">
             <input type="submit" value="Удалить" class="btn btn-default" /> |
             <a href="{{ route('users.index') }}">Вернуться</a>
