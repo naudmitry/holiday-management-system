@@ -26,7 +26,7 @@
         <dd>{{ $user->is_blocked ? 'Да' : 'Нет' }}</dd>
 
         <dt>Роль</dt>
-        <dd>{{ $user->role }}</dd>
+        <dd>{{ trans('user.roles.' . $user->role) }}</dd>
     </dl>
 </div>
 

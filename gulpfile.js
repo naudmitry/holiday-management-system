@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var paths = {
     bootstrap: './bower_components/bootstrap',
     jquery: './bower_components/jquery',
+    bootstrap_table: '.bower_components/bootstrap-table',
     public: './public'
 }
 
@@ -27,6 +28,11 @@ gulp.task('js', function() {
 });
 
 gulp.task('jquery', function() {
+    return gulp.src(paths.jquery + '/dist/*.js')
+        .pipe(gulp.dest(paths.public + '/js'));
+});
+
+gulp.task('bootstrap_table', function() {
     return gulp.src(paths.jquery + '/dist/*.js')
         .pipe(gulp.dest(paths.public + '/js'));
 });

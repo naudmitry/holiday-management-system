@@ -24,18 +24,23 @@ class UserController extends Controller
         }
         
         if (request()->has('email')) {
-            $usersQuery->where('email', request('email'));
+            $usersQuery->where('email', 'LIKE', '%'. request('email') . '%');
         }
 
         if (request()->has('is_blocked')) {
-            $usersQuery->where('is_blocked', request('is_blocked'));
+            $usersQuery->where('is_blocked', request('is_blocked') == 0 ? 0 : 1);
         }
 
         if (request()->has('position_id')) {
             $usersQuery->where('position_id', request('position_id'));
         }
 
-        $users = $usersQuery->paginate(10);
+        if (request()->has('orderBy')) {
+            $usersQuery->orderBy(request('orderBy'), request('orderDir'));
+        }
+
+        $users = $usersQuery->paginate(10)
+            ->appends(request()->only('is_blocked', 'name', 'email', 'position_id', 'orderBy', 'orderDir'));
         
         return view('users.index', ['users' => $users]);
     }
@@ -160,5 +165,14 @@ class UserController extends Controller
     public function personal()
     {
         return view('users.personal');
+    }
+
+    public function sort() 
+    {
+        $collection = \App\Models\User::all();
+        $users = $collection->sortBy('name');
+        $users->values()->all();
+
+        return view('users.index', ['users' => $users]);
     }
 }

@@ -18,7 +18,7 @@ class SettingsTableSeeder extends Seeder
             ['key' => 'MIN_HOLIDAY_DAYS', 'name' => 'Минимальная длительность отпуска', 'value' => '5']
         ];
 
-        \App\Models\Setting::truncate();
+        \App\Models\Setting::truncate();  
 
         \App\Models\Setting::insert($settings); 
     }
