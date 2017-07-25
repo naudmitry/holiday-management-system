@@ -23,7 +23,8 @@
                                 <ul class="dropdown-menu">
                                     @if (Auth::user()->hasRole(App\Enums\RolesEnum::HEAD))
                                         <li><a href="{{ route('users.index') }}">Сотрудники</a></li>
-                                        <li><a href="#">Параметры системы</a></li>
+                                        <li><a href="{{ route('settings.index') }}">Параметры системы</a></li>
+                                        <li><a href="{{ route('positions.index') }}">Справочник должностей</a></li>
                                     @endif
                                 </ul>
                             </li>

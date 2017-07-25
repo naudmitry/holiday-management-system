@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
 
 class PositionController extends Controller
 {
@@ -13,7 +14,9 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
+        $positions = \App\Models\Position::paginate(10);
+
+        return view('positions.index', ['positions' => $positions]);
     }
 
     /**
@@ -45,7 +48,9 @@ class PositionController extends Controller
      */
     public function show($id)
     {
-        //
+        $position = \App\Models\Position::findOrFail($id);
+
+        return view('positions.show', ['position' => $position]);
     }
 
     /**
@@ -56,7 +61,9 @@ class PositionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $position = \App\Models\Position::findOrFail($id);
+
+        return view('positions.edit', ['position' => $position]);
     }
 
     /**
@@ -66,9 +73,14 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\UpdatePosition $request, $id)
     {
-        //
+        $position = \App\Models\Position::findOrFail($id);
+        $position->name = $request->get('name');
+        $position->name_r = $request->get('name_r');
+        $position->save();
+
+        return redirect()->route('positions.show', $position);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
 
 class SettingController extends Controller
 {
@@ -58,7 +59,10 @@ class SettingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $setting = \App\Models\Setting::findOrFail($id);
+        $errors = \Session::get('errors');
+
+        return view('settings.edit', ['setting' => $setting, 'errors' => $errors]);
     }
 
     /**
@@ -68,9 +72,14 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\UpdateSetting $request, $id)
     {
-        //
+        $setting = \App\Models\Setting::findOrFail($id);
+        $setting->name = $request->get('name');
+        $setting->value = $request->get('value');
+        $setting->save();
+
+        return redirect()->route('settings.index');
     }
 
     /**

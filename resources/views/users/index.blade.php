@@ -1,6 +1,7 @@
 @include('layouts.header')
 
 <h1>Сотрудники</h1>
+<hr/>
 
 <p>
     <a href="{{ route('users.add') }}">Добавить</a>

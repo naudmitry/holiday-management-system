@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models;
 use App\Enums;
 use Carbon\Carbon;
@@ -21,8 +20,8 @@ $faker = Faker\Factory::create('ru_RU');
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Models\Position::class, function () use ($faker) {
     return [
-        'name' => $faker->name,
-        'name_r' => $faker->name
+        'name' => $faker->jobTitle,
+        'name_r' => $faker->jobTitle
     ];
 });
 

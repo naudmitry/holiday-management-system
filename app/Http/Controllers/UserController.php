@@ -166,13 +166,4 @@ class UserController extends Controller
     {
         return view('users.personal');
     }
-
-    public function sort() 
-    {
-        $collection = \App\Models\User::all();
-        $users = $collection->sortBy('name');
-        $users->values()->all();
-
-        return view('users.index', ['users' => $users]);
-    }
 }
