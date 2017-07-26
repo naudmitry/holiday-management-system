@@ -33,14 +33,23 @@
                         </select>
                     </th>
                     <th>
+                        <select id="select_role" name="role" class="form-control">
+                            <option value="" selected>Все</option>
+                            @foreach(\App\Enums\RolesEnum::getAll() as $role)
+                                <option value="{{ $role }}" {{ request()->get('role') == $role ? 'selected' : '' }}>{{ trans('user.roles.' . $role) }}</option>
+                            @endforeach
+                        </select>
+                    </th>
+                    <th>
                         <input type="submit" value="ОК" class="btn btn-default" />
-                        <input type="button" id="btn_reset" value="Сбросить фильтр" class="btn btn-default" />
+                        <input type="button" id="btn_reset" value="Отмена" class="btn btn-default" />
                         <script type="text/javascript">
                             $('#btn_reset').click(function(){
                                 $("#txt_name").val('');
                                 $("#txt_email").val('');
                                 $('#select_blocked').prop('selectedIndex', 0);
                                 $('#select_position').prop('selectedIndex', 0);
+                                $('#select_role').prop('selectedIndex', 0);
                                 $("#orderDir").val("asc");
                                 $("#form_index").submit();
                             });
@@ -70,6 +79,7 @@
                     </th>
                     <th>Блокировка</th>
                     <th>Должность</th>
+                    <th>Роль</th>
                     <th>Действия</th>
                     <script type="text/javascript">
                         $(".sortable").click(function() {
@@ -93,6 +103,7 @@
                         <td>{{ $value->email }}</td>            
                         <td>{{ $value->is_blocked ? 'Да' : 'Нет' }}</td>
                         <td>{{ $value->position->name }}</td>
+                        <td>{{ trans('user.roles.' . $value->role) }}</td>
                         <td>
                             <a href="{{ route('users.edit', $value->id) }}">Изменить</a> | 
                             <a href="{{ route('users.show', $value->id) }}">Детали</a> | 

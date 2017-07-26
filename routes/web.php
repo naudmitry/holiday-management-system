@@ -14,6 +14,8 @@ Route::resource('settings', 'SettingController', ['middleware' => 'role:head']);
 
 Route::resource('positions', 'PositionController', ['middleware' => 'role:head']);
 
+Route::get('errors', 'SiteController@showErrorRole', ['middleware' => 'role:head'])->name('errors.head');
+
 Route::post('login', 'AuthorizationController@login')->name('login.action');
 Route::get('login', 'AuthorizationController@auth')->name('login.view');
 Route::get('logout', 'AuthorizationController@logout')->name('logout.action');

@@ -15,4 +15,9 @@ class SiteController extends Controller
         return view('index');
     }
 
+    public function showErrorRole()
+    {
+        return view('errors.destroy_head');
+    }
+
 }

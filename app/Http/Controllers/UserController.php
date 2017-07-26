@@ -35,12 +35,16 @@ class UserController extends Controller
             $usersQuery->where('position_id', request('position_id'));
         }
 
+        if (request()->has('role')) {
+            $usersQuery->where('role', request('role'));
+        }
+
         if (request()->has('orderBy')) {
             $usersQuery->orderBy(request('orderBy'), request('orderDir'));
         }
 
         $users = $usersQuery->paginate(10)
-            ->appends(request()->only('is_blocked', 'name', 'email', 'position_id', 'orderBy', 'orderDir'));
+            ->appends(request()->only('is_blocked', 'name', 'email', 'position_id', 'orderBy', 'orderDir', 'role'));
         
         return view('users.index', ['users' => $users]);
     }
@@ -157,7 +161,22 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = \App\Models\User::findOrFail($id)->delete();
+        $user = \App\Models\User::findOrFail($id);
+
+        if (($user->role == \App\Enums\RolesEnum::HEAD) && ($user->is_blocked == 0)) {
+            $head = \App\Models\User::where('role', \App\Enums\RolesEnum::HEAD)
+                ->where('is_blocked', 0)
+                ->count();
+            
+            if ($head > 1) {
+                $user = \App\Models\User::findOrFail($id)->delete();
+            }
+            else {
+                return redirect()->route('errors.head');
+            }
+        }
+
+        $user->delete();
 
         return redirect()->route('users.index');
     }
